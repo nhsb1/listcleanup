@@ -1,6 +1,4 @@
-# replace words in a text that match key_strings in a dictionary with the given value_string
-# Python's regular expression module  re  is used here
-# tested with Python24       vegaseat      07oct2005
+#!/usr/bin/env python
 import re
 from argparse import ArgumentParser
 import stringcase
@@ -40,15 +38,31 @@ wordDic = {
 '/': '',
 'CM': '',
 '"': '',}
-# call the function and get the changed text
 
 newline = ""
 
 for dirtyline in dirtyline:
-		#newline = newline + str101.replace("/", "")
-		#newline = newline + multiwordReplace(str101, wordDic)
-		print "Dirty line: "  + dirtyline
 		clean1 = multiwordReplace(dirtyline, wordDic)
-		print "Clean line: " + clean1
-		newline = newline + clean1
-print newline
+		namematch = re.findall(r'([a-zA-Z]\w+)', clean1)
+
+		if namematch: #I'm using the first 2 elements of my list as first and last name; this works if there's a middle initial (e.g. bob p. smith, but not if there's a full middle name "Bob Pick Smith" )
+				fname = namematch[0]
+				lname = namematch[1]
+				fname = stringcase.lowercase(fname)
+				fname = stringcase.capitalcase(fname)
+				lname = stringcase.lowercase(lname)
+				lname = stringcase.capitalcase(lname)
+
+				emailmatch = re.search(r'[\w.]+@[\w.-]+', clean1) #
+				if emailmatch:
+					fullname = fname + " " + lname + ","
+					#newline = fullname, emailmatch.group()
+					print fullname, emailmatch.group()
+				else:
+					print "**********2"
+		else:
+			print "*********1"
+
+				
+
+
