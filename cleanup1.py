@@ -4,14 +4,14 @@ from argparse import ArgumentParser
 import stringcase
 
 
-def get_args():
+def getArgs():
 	parser = ArgumentParser(description = 'Get Arguments')
 	parser.add_argument("-f", "--file", required=True, dest="filename", help="file name to parse", metavar="FILE")
 	args = parser.parse_args()
 	filename = args.filename
 	return filename
 
-def openandreadfile():
+def openReadFile():
 	global filename
 	bigstring = open(filename)
 	stringline = bigstring.readlines()
@@ -28,8 +28,25 @@ def multiwordReplace(text, wordDic):
         return wordDic[match.group(0)]
     return rc.sub(translate, text)
 
-filename = get_args()
-dirtyline = openandreadfile()
+def nameScrub(text1, text2):
+	"""
+	takes irregularly formatted first and last names (e.g. BOB sMiTH), converts them to lowercase, 
+	and converts them again to capital case (e.g. Bob Smith) using the stringcase library returning 
+	a clean full name (e.g. Bob Smith)
+
+	"""
+	fname = text1
+	lname = text2
+	fname = stringcase.lowercase(fname)
+	fname = stringcase.capitalcase(fname)
+	lname = stringcase.lowercase(lname)
+	lname = stringcase.capitalcase(lname)
+	fullname = fname + " " + lname + ","
+	return fullname
+
+
+filename = getArgs()
+dirtyline = openReadFile()
 
 
 # the dictionary has target_word : replacement_word pairs
@@ -43,25 +60,21 @@ newline = ""
 
 for dirtyline in dirtyline:
 		clean1 = multiwordReplace(dirtyline, wordDic)
-		namematch = re.findall(r'([a-zA-Z]\w+)', clean1)
+		#namematch = re.findall(r'([a-zA-Z]\w+)', clean1)#Full name
+		#namematch = re.findall(r'\w*[,]', clean1) finds the lastname which is infront of the ,
+		fullname = clean1.split(",")[0]
+		lastname = fullname.split(",")[0].split()[-1]
+		firstname = re.findall(r'([a-zA-Z]\w+)', fullname)[0]
 
-		if namematch: #I'm using the first 2 elements of my list as first and last name; this works if there's a middle initial (e.g. bob p. smith, but not if there's a full middle name "Bob Pick Smith" )
-				fname = namematch[0]
-				lname = namematch[1]
-				fname = stringcase.lowercase(fname)
-				fname = stringcase.capitalcase(fname)
-				lname = stringcase.lowercase(lname)
-				lname = stringcase.capitalcase(lname)
-
+		if lastname: #I'm using the first 2 elements of my list as first and last name; this works if there's a middle initial (e.g. bob p. smith, but not if there's a full middle name "Bob Pick Smith" )
+				fullname = nameScrub(firstname, lastname)
 				emailmatch = re.search(r'[\w.]+@[\w.-]+', clean1) #
 				if emailmatch:
-					fullname = fname + " " + lname + ","
-					#newline = fullname, emailmatch.group()
 					print fullname, emailmatch.group()
-				else:
-					print "**********2"
-		else:
-			print "*********1"
+		# 		else:
+		# 			#print ""
+		# else:
+		# 	#print ""
 
 				
 
