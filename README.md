@@ -1,5 +1,5 @@
 # Listcleanup
-=====================================================
+-------
 Produces a clean output file that's ready for use into some other system
 
 I had a results .csv file that came from some mechnical turk hits that I had created, with varying output (very small sample provided in the repo: source.csv). I needed a way to clean-up the output for use in a email marketing campaign, because the data set had several formatting problems (e.g. variation on middle names/initials, professional abbreviations that I didn't care about, varying cases, etc.).  The result, is this listcleanup file.  
