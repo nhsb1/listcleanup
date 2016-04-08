@@ -1,38 +1,35 @@
-# Stuff
+# Listcleanup
 =====================================================
-Description stuff
+
+Produces a clean output file that's ready for use into some other system
+
+I had a results .csv file that came from some mechnical turk hits that I had created, with varying output (very small sample provided in the repo: source.csv). I needed a way to clean-up the output for use in a email marketing campaign, because the data set had several formatting problems (e.g. variation on middle names/initials, professional abbreviations that I didn't care about, varying cases, etc.).  The result, is this listcleanup file.  
 
 
 Install
 -------
 
-Install stuff
-
+I haven't packaged this via pip, so you'll have to download the .py file, and install the pre-reqs... argparse, re, stringcase. 
+ 
 Usage
 -------
 cleanup1.py -f source.csv > cleaned-up.csv
 
 
-Options
--------
-Options stuff
-
-The goal: A clean file that's ready for import into some other system
-The Source: source.csv is the starting point
-Pre-work: source.csv was pulled from an Mturk raw output column no scrubbing otherwise
-
-Requirements:
-python string case must be installed (pip install stringcase); https://github.com/okunishinishi/python-stringcase
-
-Usage: cleanup1.py -f source.csv > cleaned.csv
-
 Takes a input file with rows that resembles: 
 "jennifer D. Doe P.E./CM, jdoe@somedomain.org"
 "BOB SMITH, bsmith@here.com"
+
 
 And turns it into output that resembles:
 "Jennifer Doe, jdoe@somedomain.org"
 "Bob Smith, bsmith@here.com"
 
-Bugs:
-*fixed the regex bug on middle initals
+Options
+-------
+NA
+
+Notes
+-------
+
+fixed the regex bug on middle names & initals
