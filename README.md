@@ -15,11 +15,13 @@ cleanup1.py -f source.csv > cleaned-up.csv
 
 
 Takes a input file with rows that resembles: 
+
 "jennifer D. Doe P.E./CM, jdoe@somedomain.org"
 "BOB SMITH, bsmith@here.com"
 
 
 And turns it into output that resembles:
+
 "Jennifer Doe, jdoe@somedomain.org"
 "Bob Smith, bsmith@here.com"
 
